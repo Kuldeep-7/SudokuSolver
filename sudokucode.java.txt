@@ -1,0 +1,114 @@
+import java.util.Scanner;
+
+public class SudokuSolver {
+
+    // Check if it's safe to place a digit in a given cell
+    public static boolean isSafe(int sudoku[][], int row, int col, int digit) {
+        // Check column
+        for (int i = 0; i < 9; i++) {
+            if (sudoku[i][col] == digit) return false;
+        }
+
+        // Check row
+        for (int j = 0; j < 9; j++) {
+            if (sudoku[row][j] == digit) return false;
+        }
+
+        // Check 3x3 grid
+        int sr = (row / 3) * 3;
+        int sc = (col / 3) * 3;
+        for (int i = sr; i < sr + 3; i++) {
+            for (int j = sc; j < sc + 3; j++) {
+                if (sudoku[i][j] == digit) return false;
+            }
+        }
+
+        return true;
+    }
+
+    // Solve Sudoku using recursion and backtracking
+    public static boolean sudokuSolver(int sudoku[][], int row, int col) {
+        // Base case: all rows processed
+        if (row == 9) return true;
+
+        int nextRow = row;
+        int nextCol = col + 1;
+        if (nextCol == 9) {  // move to next row
+            nextRow = row + 1;
+            nextCol = 0;
+        }
+
+        // Skip already filled cells
+        if (sudoku[row][col] != 0) {
+            return sudokuSolver(sudoku, nextRow, nextCol);
+        }
+
+        // Try digits 1-9
+        for (int digit = 1; digit <= 9; digit++) {
+            if (isSafe(sudoku, row, col, digit)) {
+                sudoku[row][col] = digit;
+                if (sudokuSolver(sudoku, nextRow, nextCol)) return true;
+                sudoku[row][col] = 0; // backtrack
+            }
+        }
+
+        return false; // no digit fits
+    }
+
+    // Print Sudoku grid with formatting
+    public static void printSudoku(int sudoku[][]) {
+        for (int i = 0; i < 9; i++) {
+            if (i % 3 == 0 && i != 0) {
+                System.out.println("------+-------+------");
+            }
+            for (int j = 0; j < 9; j++) {
+                if (j % 3 == 0 && j != 0) System.out.print("| ");
+                System.out.print(sudoku[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int sudoku[][] = new int[9][9];
+
+        System.out.println("Enter the Sudoku puzzle row by row (use 0 for empty cells):");
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                int num;
+                while (true) {
+                    num = sc.nextInt();
+                    if (num >= 0 && num <= 9) break;
+                    System.out.println("Invalid input! Enter numbers 0-9 only:");
+                }
+                sudoku[i][j] = num;
+            }
+        }
+
+        System.out.println("\nOriginal Sudoku:");
+        printSudoku(sudoku);
+
+        if (sudokuSolver(sudoku, 0, 0)) {
+            System.out.println("\nSolved Sudoku:");
+            printSudoku(sudoku);
+        } else {
+            System.out.println("\nNo solution exists for the given Sudoku.");
+        }
+    }
+}
+
+
+/*
+ * Sudoku Solver in Java
+ * ---------------------
+ * This program solves any 9x9 Sudoku puzzle using recursion and backtracking.
+ * 
+ * Algorithm:
+ * 1. Find the next empty cell (with 0).
+ * 2. Try placing digits 1–9.
+ * 3. Check with isSafe() if the digit fits (row, column, 3x3 box).
+ * 4. If valid, place it and recurse.
+ * 5. If no digit fits, backtrack.
+ */
+
