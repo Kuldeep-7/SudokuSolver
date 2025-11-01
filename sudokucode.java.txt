@@ -21,7 +21,8 @@ public class SudokuSolver {
         int sc = (col / 3) * 3;
         for (int i = sr; i < sr + 3; i++) {
             for (int j = sc; j < sc + 3; j++) {
-                if (sudoku[i][j] == digit) return false;
+                if (sudoku[i][j] == digit){
+                    return false;}
             }
         }
 
@@ -31,7 +32,8 @@ public class SudokuSolver {
     // Solve Sudoku using recursion and backtracking
     public static boolean sudokuSolver(int sudoku[][], int row, int col) {
         // Base case: all rows processed
-        if (row == 9) return true;
+        if (row == 9){
+            return true;}
 
         int nextRow = row;
         int nextCol = col + 1;
@@ -114,6 +116,7 @@ public class SudokuSolver {
  * 4. If valid, place it and recurse.
  * 5. If no digit fits, backtrack.
  */
+
 
 
 
