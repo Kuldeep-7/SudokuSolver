@@ -6,7 +6,8 @@ public class SudokuSolver {
     public static boolean isSafe(int sudoku[][], int row, int col, int digit) {
         // Check column
         for (int i = 0; i < 9; i++) {
-            if (sudoku[i][col] == digit) return false;
+            if (sudoku[i][col] == digit){
+                return false;}
         }
 
         // Check row
@@ -47,7 +48,8 @@ public class SudokuSolver {
         for (int digit = 1; digit <= 9; digit++) {
             if (isSafe(sudoku, row, col, digit)) {
                 sudoku[row][col] = digit;
-                if (sudokuSolver(sudoku, nextRow, nextCol)) return true;
+                if (sudokuSolver(sudoku, nextRow, nextCol)){
+                    return true;}
                 sudoku[row][col] = 0; // backtrack
             }
         }
@@ -111,4 +113,5 @@ public class SudokuSolver {
  * 4. If valid, place it and recurse.
  * 5. If no digit fits, backtrack.
  */
+
 
