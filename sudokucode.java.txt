@@ -12,7 +12,8 @@ public class SudokuSolver {
 
         // Check row
         for (int j = 0; j < 9; j++) {
-            if (sudoku[row][j] == digit) return false;
+            if (sudoku[row][j] == digit){
+                return false;}
         }
 
         // Check 3x3 grid
@@ -113,5 +114,6 @@ public class SudokuSolver {
  * 4. If valid, place it and recurse.
  * 5. If no digit fits, backtrack.
  */
+
 
 
